@@ -1,39 +1,43 @@
-### Documentation is included in the Documentation folder ###
+### [외교부 월별세출집행현황] ###
+
+외교부 월별 세출집행현황(2023년1월~2023년6월) 데이터를 추출하여 결과 파일 작성
 
 
-### REFrameWork Template ###
-**Robotic Enterprise Framework**
 
-* Built on top of *Transactional Business Process* template
-* Uses *State Machine* layout for the phases of automation project
-* Offers high level logging, exception handling and recovery
-* Keeps external settings in *Config.xlsx* file and Orchestrator assets
-* Pulls credentials from Orchestrator assets and *Windows Credential Manager*
-* Gets transaction data from Orchestrator queue and updates back status
-* Takes screenshots in case of system exceptions
+**[사전작업]**
+
+Input 폴더 : 기본엑셀양식, VBA 코드 파일
+
+Config.xlsx : 사이트URL, 결과파일, 템플릿파일경로, 검색월 1월~6월
 
 
-### How It Works ###
+
+### [작업과정] ###
 
 1. **INITIALIZE PROCESS**
- + ./Framework/*InitiAllSettings* - Load configuration data from Config.xlsx file and from assets
- + ./Framework/*GetAppCredential* - Retrieve credentials from Orchestrator assets or local Windows Credential Manager
- + ./Framework/*InitiAllApplications* - Open and login to applications used throughout the process
+   
+     input 폴더의 템플릿파일 복사해서 결과파일 생성
 
+     시트들을 LIST로 만들어 변수에 저장
+   
 2. **GET TRANSACTION DATA**
- + ./Framework/*GetTransactionData* - Fetches transactions from an Orchestrator queue defined by Config("OrchestratorQueueName") or any other configured data source
+
+    Transaction Item 타입 : string  시트명리스트를 transactionitem으로 활용
+
 
 3. **PROCESS TRANSACTION**
- + *Process* - Process trasaction and invoke other workflows related to the process being automated 
- + ./Framework/*SetTransactionStatus* - Updates the status of the processed transaction (Orchestrator transactions by default): Success, Business Rule Exception or System Exception
 
+  - config파일에서 1월~6월을 읽어와 array 변수에 저장
+    
+  - 데이터 추출(2023년 1월~ 2023년 6월까지의데이터)
+
+  - 템플릿에 양식에 맞는 데이터만 남겨서 엑셀 작성
+
+  - '종합' 시트의 각 월별 합계 기입
+ 
+  
 4. **END PROCESS**
- + ./Framework/*CloseAllApplications* - Logs out and closes applications used throughout the process
-
-
-### For New Project ###
-
-1. Check the Config.xlsx file and add/customize any required fields and values
-2. Implement InitiAllApplications.xaml and CloseAllApplicatoins.xaml workflows, linking them in the Config.xlsx fields
-3. Implement GetTransactionData.xaml and SetTransactionStatus.xaml according to the transaction type being used (Orchestrator queues by default)
-4. Implement Process.xaml workflow and invoke other workflows related to the process being automated
+   
+  - 작성한 날짜를 기준으로 연도와 월 기입
+    
+  - 1월~6월까지의 총합계 기입
