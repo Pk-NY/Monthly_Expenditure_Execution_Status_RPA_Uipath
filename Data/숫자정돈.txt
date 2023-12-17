@@ -1,0 +1,4 @@
+Sub ¼ıÀÚÁ¤µ·()
+    Range("C3:C9").Select
+    Selection.Style = "Comma [0]"
+End Sub
